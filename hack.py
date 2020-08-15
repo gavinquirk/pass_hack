@@ -1,24 +1,27 @@
 import sys
 import socket
+import itertools
+
+
+characters = list('abcdefghijklmnopqrstuvwxyz0123456789')
 
 ip = sys.argv[1]
 port = int(sys.argv[2])
-message = sys.argv[3]
 
-# 1 Create a new socket.
-my_socket = socket.socket()
+password = ''
 
-# 2 Connect to a host and a port using the socket.
-my_socket.connect((ip, port))
 
-# 3 Send a message from the third command line argument to the host using the socket.
-my_socket.send(message.encode())
+# 1 Create a new socket and connect to host
+web_socket = socket.socket()
+web_socket.connect((ip, port))
 
-# 4 Receive the server’s response.
-response = my_socket.recv(1024).decode()
+# 2 Generate possible password, encode and send
+for character in range(0, len(characters) + 1):
+    for combination in itertools.combinations(characters, character):
+        # web_socket.send(combination.encode())
+        # response = web_socket.recv(1024).decode()
+        # print(response)
+        print(combination)
 
-# 5 Print the server’s response.
-print(response)
 
-# 6 Close the socket.
-my_socket.close()
+web_socket.close()
