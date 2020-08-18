@@ -5,23 +5,23 @@ import itertools
 
 characters = list('abcdefghijklmnopqrstuvwxyz0123456789')
 
-ip = sys.argv[1]
+print(characters)
+
+host = sys.argv[1]
 port = int(sys.argv[2])
 
-password = ''
+with socket.socket() as client_socket:
+    address = (host, port)
+    client_socket.connect(address)
 
+    # 2 Generate possible password, encode and send
+    for i in range(1, len(characters) + 1):
+        for combination in itertools.product(characters, repeat=i):
+            password = "".join(combination)
+            client_socket.send(password.encode())
+            response = client_socket.recv(1024).decode()
+            if response == "Connection success!":
+                print(response)
+                break
 
-# 1 Create a new socket and connect to host
-web_socket = socket.socket()
-web_socket.connect((ip, port))
-
-# 2 Generate possible password, encode and send
-for character in range(0, len(characters) + 1):
-    for combination in itertools.combinations(characters, character):
-        # web_socket.send(combination.encode())
-        # response = web_socket.recv(1024).decode()
-        # print(response)
-        print(combination)
-
-
-web_socket.close()
+client_socket.close()
