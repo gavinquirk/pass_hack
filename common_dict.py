@@ -6,10 +6,6 @@ import itertools
 host = sys.argv[1]
 port = int(sys.argv[2])
 
-alphabet = 'abcdefghijklmnopqrstuvwxyz'
-cap_alphabet = 'abcdefghijklmnopqrstuvwxyz'.upper()
-numbers = '0123456789'
-characters = alphabet + cap_alphabet + numbers
 common_passwords = [
     password.rstrip() for password in list(open("passwords.txt").readlines())]
 
@@ -20,6 +16,14 @@ state = False
 
 client_socket.connect(address)
 
-# Run possible passwords using common password list (passwords.txt), both uppercase and lowercase characters
+# For each password in list, generate a list of all capitalized and uncapitalized permutations
+for password in common_passwords:
+    combinations = list(map(lambda x: ''.join(x), itertools.product(
+        *([letter.lower(), letter.upper()] for letter in password))))
+
+    # For each combination, send through web socket and get response
+    for combination in combinations:
+        # SEND TO WEB SOCKET HERE
+        print(combination)
 
 client_socket.close()
