@@ -23,10 +23,10 @@ for password in common_passwords:
 
     # For each combination, send through web socket and get response
     for combination in combinations:
-        client_socket.send(password.encode())
+        client_socket.send(combination.encode())
         response = client_socket.recv(1024).decode()
         if response == "Connection success!":
-            print(password)
+            print(combination)
             state = True
             break
     if state:
