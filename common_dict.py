@@ -10,6 +10,8 @@ alphabet = 'abcdefghijklmnopqrstuvwxyz'
 cap_alphabet = 'abcdefghijklmnopqrstuvwxyz'.upper()
 numbers = '0123456789'
 characters = alphabet + cap_alphabet + numbers
+common_passwords = [
+    password.rstrip() for password in list(open("passwords.txt").readlines())]
 
 client_socket = socket.socket()
 address = (host, port)
